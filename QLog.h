@@ -1,8 +1,9 @@
 #ifndef QMSG_QLOG_H
 #define QMSG_QLOG_H
 
-#include "QString.h"
 #include "QVersion.h"
+
+#include "QString.h"
 
 #include <ctime>
 #include <iomanip>
@@ -28,8 +29,8 @@ private:
 		localtime_s(&localized_time, &current_time);
 		std::wstringstream messageString;
 		messageString << L"[" << std::put_time(&localized_time, L"%FT%TZ") << L"]" << L" [" << level << L"]: " << message;
-		// MessageBox(NULL, messageString.str().c_str(), L"QMsg Debug", MB_OK | (level == L"ERROR" ? MB_ICONERROR : level == L"WARN" ? MB_ICONWARNING : MB_ICONINFORMATION));
-		std::wcout << messageString.str() << std::endl;
+		MessageBox(NULL, messageString.str().c_str(), L"QMsg Debug", MB_OK | (level == L"ERROR" ? MB_ICONERROR : level == L"WARN" ? MB_ICONWARNING : MB_ICONINFORMATION));
+		// std::wcout << messageString.str() << std::endl;
 	}
 };
 

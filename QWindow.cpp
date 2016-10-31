@@ -32,17 +32,17 @@ bool QWindow::Create() {
 		Log->Error(L"Could not register window class.");
 		return false;
 	}
-
+	
 	if ((window_handle_ = CreateWindowEx(QMSG_QWINDOW_EXSTYLE, name_.c_str(), title_.c_str(), QMSG_QWINDOW_STYLE, x_, y_, width_, height_, NULL, NULL, instance_, NULL)) == NULL) {
 		Log->Error(L"Could not create window handle.");
 		return false;
 	}
 
+	// Store a pointer to this QWindow object in USERDATA, so internal_message_handler_ (a static function) is able to access it and mutate state.
+	SetWindowLongPtr(window_handle_, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+
 	ShowWindow(window_handle_, SW_SHOW);
 	UpdateWindow(window_handle_);
-
-	// Store a pointer to this QWindow object in USERDATA, so internal_message_handler (a static function) is able to access it and mutate state.
-	SetWindowLongPtr(window_handle_, GWLP_USERDATA, reinterpret_cast<LONG>(this));
 
 	render_surface_ = QRenderSurface(window_handle_);
 
@@ -60,10 +60,11 @@ bool QWindow::Create() {
 }
 
 LRESULT CALLBACK QWindow::internal_message_handler_(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
-	QWindow *window = reinterpret_cast<QWindow *>(GetWindowLongPtr(hWnd, GWL_USERDATA));
+	// We can't retrieve this value here if some window messages (WM_NCCREATE, etc.) that are sent before window creation need to be handled.
+	QWindow *window = get_window_from_user_data_(hWnd);
 
 	switch (uMsg) {
-	case WM_CLOSE:
+	case WM_DESTROY:
 		PostQuitMessage(EXIT_SUCCESS);
 		break;
 	case WM_KEYDOWN:
@@ -83,6 +84,8 @@ LRESULT CALLBACK QWindow::internal_message_handler_(HWND hWnd, UINT uMsg, WPARAM
 }
 
 LRESULT CALLBACK QWindow::on_window_size_(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
+	this->width_ = LOWORD(lParam);
+	this->height_ = HIWORD(lParam);
 	return 0;
 }
 
