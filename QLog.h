@@ -22,6 +22,22 @@ public:
 	inline void Error(QString message) {
 		this->log_(L"ERROR", message);
 	}
+
+    inline void SystemError(QString function) {
+        LPVOID message_buffer;
+        QString formatted_message;
+        DWORD last_error = GetLastError();
+
+        FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
+            NULL, last_error, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPWSTR)&message_buffer, 0, NULL);
+
+        QCString message = (QCString)message_buffer;
+
+        formatted_message = function + L" failed with error " + TO_QSTRING(last_error) + L": " + message;
+        log_(L"ERROR", formatted_message);
+
+        LocalFree(message_buffer);
+    }
 private:
 	inline void log_(QString level, QString message) {
 		time_t current_time = time(0);

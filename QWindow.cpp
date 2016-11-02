@@ -10,7 +10,9 @@ QWindow::QWindow(HINSTANCE hInstance, QString name, QString title, int width, in
 }
 
 QWindow::~QWindow() {
-
+    if (render_surface_) {
+        delete render_surface_;
+    }
 }
 
 bool QWindow::Create() {
@@ -20,8 +22,8 @@ bool QWindow::Create() {
 	window_class_.cbWndExtra = 0;
 	window_class_.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 	window_class_.hCursor = LoadCursor(NULL, IDC_ARROW);
-	window_class_.hIcon = LoadIcon(instance_, MAKEINTRESOURCE(IDI_WINLOGO));
-	window_class_.hIconSm = LoadIcon(instance_, MAKEINTRESOURCE(IDI_WINLOGO));
+	window_class_.hIcon = LoadIcon(instance_, (LPCWSTR)MAKEINTRESOURCE(IDI_WINLOGO));
+	window_class_.hIconSm = LoadIcon(instance_, (LPCWSTR)MAKEINTRESOURCE(IDI_WINLOGO));
 	window_class_.hInstance = instance_;
 	window_class_.lpfnWndProc = &this->internal_message_handler_;
 	window_class_.lpszClassName = name_.c_str();
@@ -40,11 +42,11 @@ bool QWindow::Create() {
 
 	// Store a pointer to this QWindow object in USERDATA, so internal_message_handler_ (a static function) is able to access it and mutate state.
 	SetWindowLongPtr(window_handle_, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+   
+	render_surface_ = new QRenderSurface(window_handle_);
 
 	ShowWindow(window_handle_, SW_SHOW);
 	UpdateWindow(window_handle_);
-
-	render_surface_ = QRenderSurface(window_handle_);
 
 	MSG msg;
 

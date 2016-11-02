@@ -34,7 +34,7 @@ private:
 	HINSTANCE instance_;
 	HWND window_handle_;
 	WNDCLASSEX window_class_;
-	QRenderSurface render_surface_;
+	QRenderSurface *render_surface_;
 
 	bool key_states_[256] = { 0 };
 	static LRESULT CALLBACK internal_message_handler_(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
