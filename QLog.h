@@ -19,6 +19,10 @@ public:
 		this->log_(L"INFO", message);
 	}
 
+	inline void Warn(QString message) {
+		this->log_(L"WARN", message);
+	}
+
 	inline void Error(QString message) {
 		this->log_(L"ERROR", message);
 	}

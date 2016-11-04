@@ -20,7 +20,7 @@ class QGLFont {
 public:
     QGLFont();
     ~QGLFont();
-	bool Load(QString font_path);
+	bool Load(QString font_path, int font_size);
 private:
     std::map<GLchar, QGLCharacter> characters_;
 	FT_Face font_face_;

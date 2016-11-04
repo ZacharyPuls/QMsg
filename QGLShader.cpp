@@ -31,7 +31,7 @@ bool QGLShader::Create() {
         return false;
     }
     if (!attach_shaders_and_link_program_()) {
-        Log->Error(L"Could not link program: " + TO_QSTRING(get_program_log_(shader_program_id_)));
+        Log->Error(L"Could not link program: " + TO_QSTRING(get_program_log_(id_)));
         return false;
     }
     return true;
@@ -69,16 +69,16 @@ GLchar *QGLShader::get_shader_log_(GLuint shader) {
 }
 
 bool QGLShader::generate_shader_program_id_() {
-    shader_program_id_ = glCreateProgram();
-    return shader_program_id_ != 0;
+    id_ = glCreateProgram();
+    return id_ != 0;
 }
 
 bool QGLShader::attach_shaders_and_link_program_() {
-    glAttachShader(shader_program_id_, vertex_shader_id_);
-    glAttachShader(shader_program_id_, fragment_shader_id_);
-    glLinkProgram(shader_program_id_);
+    glAttachShader(id_, vertex_shader_id_);
+    glAttachShader(id_, fragment_shader_id_);
+    glLinkProgram(id_);
     GLint link_status = GL_FALSE;
-    glGetProgramiv(shader_program_id_, GL_LINK_STATUS, &link_status);
+    glGetProgramiv(id_, GL_LINK_STATUS, &link_status);
     return link_status == GL_TRUE;
 }
 

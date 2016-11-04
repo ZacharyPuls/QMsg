@@ -5,11 +5,14 @@
 
 #include "QGLContext.h"
 #include "QGLShader.h"
+#include "QGLMesh2D.h"
+#include "QGLVertexBufferObject.h"
 #include "QLog.h"
 
 #include <Windows.h>
 
 #include <array>
+#include <vector>
 
 class QRenderSurface {
 public:
@@ -29,6 +32,7 @@ private:
 	QGLContext *gl_context_;
     QGLShader *gl_shader_;
     std::array<float, 16> projection_matrix_;
+	std::vector<QGLMesh2D>
 
     std::array<float, 16> project_ortho_(float width, float height);
 };

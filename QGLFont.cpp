@@ -10,10 +10,10 @@ QGLFont::~QGLFont() {
 	}
 }
 
-bool QGLFont::Load(QString font_path) {
+bool QGLFont::Load(QString font_path, int font_size) {
 	font_face_ = QFreeType::GetInstance().NewFace(font_path);
 	if (font_face_ != nullptr) {
-		QFreeType::GetInstance().SetPixelSizes(font_face_, 0, 16);
+		QFreeType::GetInstance().SetPixelSizes(font_face_, 0, font_size);
 		glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
 		for (GLubyte c = 0; c < 128; ++c) {
 			if (!QFreeType::GetInstance().LoadChar(font_face_, c, FT_LOAD_RENDER)) {

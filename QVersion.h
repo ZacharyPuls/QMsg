@@ -24,6 +24,8 @@
 #define QMSG_SOCKET_POSIX
 #endif
 
+// #define QMSG_GL_HIGH_PRECISION 1
+
 #endif
 
 

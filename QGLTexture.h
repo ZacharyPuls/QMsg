@@ -24,17 +24,21 @@ public:
 	~QGLTexture();
 
 	inline void Bind() {
-		glBindTexture(texture_type_, texture_id_);
+		glBindTexture(texture_type_, id_);
+	}
+
+	inline void Unbind() {
+		glBindTexture(texture_type_, 0);
 	}
 
 	bool Create();
 
 	inline void SetTextureOption(GLenum pname, GLint param) {
-		if (texture_id_ == 0) {
+		if (id_ == 0) {
 			Log->Error(L"Could not set option on QGLTexture, texture has either not been created, or failed creation.");
 			return;
 		}
-		glBindTexture(texture_type_, texture_id_);
+		glBindTexture(texture_type_, id_);
 		glTexParameteri(texture_type_, pname, param);
 		glBindTexture(texture_type_, 0);
 	}
@@ -48,7 +52,6 @@ public:
 	}
 private:
 	GLenum texture_type_ = GL_TEXTURE_2D;
-	GLuint texture_id_ = 0;
 	QGLTextureData texture_data_;
 };
 

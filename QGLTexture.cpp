@@ -11,12 +11,12 @@ QGLTexture::~QGLTexture() {
 }
 
 bool QGLTexture::Create() {
-	glGenTextures(1, &texture_id_);
-	if (texture_id_ == 0) {
+	glGenTextures(1, &id_);
+	if (id_ == 0) {
 		Log->Error(L"Could not generate texture ID.");
 		return false;
 	}
-	glBindTexture(texture_type_, texture_id_);
+	Bind();
 	// TODO: Allow for mipmap generation, as of right now, everything is done at the 0th mipmap level.
 	switch (texture_type_) {
 	case GL_TEXTURE_1D:
@@ -33,5 +33,5 @@ bool QGLTexture::Create() {
 		break;
 	}
 
-	glBindTexture(texture_type_, 0);
+	Unbind();
 }

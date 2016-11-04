@@ -17,16 +17,27 @@ public:
 	~QGLShader();
 
 	inline void Bind() {
-        glUseProgram(shader_program_id_);
+		if (id_ == 0) {
+			Log->Warn(L"Binding a QGLShader that has either encountered an error during creation, or has not been created. \
+						OpenGL will simply unbind the currently bound shader, which will lead to undefined behavior.");
+		}
+        glUseProgram(id_);
 	}
+
+	inline void Unbind() {
+		glUseProgram(0);
+	}
+
 	bool Create();
 
 	inline void set_vertex_shader_source(GLchar *source) {
 		vertex_shader_source_ = source;
 	}
+
 	inline void set_fragment_shader_source(GLchar *source) {
 		fragment_shader_source_ = source;
 	}
+
     inline void set_uniform(const GLchar *uniform_name, GLfloat *array) {
         glUniform4fv(glGetUniformLocation(shader_program_id_, uniform_name), 1, array);
     }
@@ -38,7 +49,6 @@ private:
 	GLchar *fragment_shader_name_;
 	GLchar *fragment_shader_source_;
 	GLchar *shader_program_name_;
-	GLuint shader_program_id_;
 
     bool generate_shader_ids_();
     bool compile_shader_(GLuint shader, GLchar *shader_source);
