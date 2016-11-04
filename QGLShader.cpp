@@ -26,6 +26,10 @@ bool QGLShader::Create() {
         Log->Error(L"Could not compile fragment shader: " + TO_QSTRING(get_shader_log_(fragment_shader_id_)));
         return false;
     }
+    if (!generate_shader_program_id_()) {
+        Log->Error(L"Could not generate program id.");
+        return false;
+    }
     if (!attach_shaders_and_link_program_()) {
         Log->Error(L"Could not link program: " + TO_QSTRING(get_program_log_(shader_program_id_)));
         return false;
@@ -62,6 +66,11 @@ GLchar *QGLShader::get_shader_log_(GLuint shader) {
         }
     }
     return "";
+}
+
+bool QGLShader::generate_shader_program_id_() {
+    shader_program_id_ = glCreateProgram();
+    return shader_program_id_ != 0;
 }
 
 bool QGLShader::attach_shaders_and_link_program_() {

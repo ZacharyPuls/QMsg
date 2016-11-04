@@ -21,7 +21,7 @@ public:
         width_ = width;
         height_ = height;
         projection_matrix_ = project_ortho_((float)width_, (float)height_);
-        gl_shader_->set_uniform("projection_matrix", projection_matrix_.data());
+        gl_shader_->set_uniform("projection", projection_matrix_.data());
     }
 private:
     int width_;

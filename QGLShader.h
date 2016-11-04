@@ -2,10 +2,12 @@
 #define QMSG_QGLSHADER_H
 
 #include "QVersion.h"
+
 #include "QGL.h"
+#include "QGLObject.h"
 #include "QString.h"
 
-class QGLShader {
+class QGLShader : IQGLObject {
 public:
 	QGLShader();
     QGLShader(GLchar *vertex_shader_source, GLchar *fragment_shader_source) : QGLShader() {
@@ -13,11 +15,11 @@ public:
         fragment_shader_source_ = fragment_shader_source;
     }
 	~QGLShader();
-	
-	bool Create();
+
 	inline void Bind() {
         glUseProgram(shader_program_id_);
 	}
+	bool Create();
 
 	inline void set_vertex_shader_source(GLchar *source) {
 		vertex_shader_source_ = source;
@@ -41,6 +43,7 @@ private:
     bool generate_shader_ids_();
     bool compile_shader_(GLuint shader, GLchar *shader_source);
     GLchar *get_shader_log_(GLuint shader);
+    bool generate_shader_program_id_();
     bool attach_shaders_and_link_program_();
     GLchar *get_program_log_(GLuint program);
 };
