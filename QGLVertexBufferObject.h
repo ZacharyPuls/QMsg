@@ -19,10 +19,12 @@ public:
 						OpenGL will simply unbind the currently bound vertex buffer object, which will lead to undefined behavior.");
 		}
 		glBindBuffer(GL_ARRAY_BUFFER, id_);
+		bound_ = true;
 	}
 
 	inline void Unbind() {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		bound_ = false;
 	}
 
 	bool Create();
@@ -31,7 +33,7 @@ public:
 		buffer_size_ = buffer_size;
 	}
 
-	void UpdateBufferData(const GLvoid *data);
+	void UpdateBufferData(const GLsizei size, const GLvoid *data);
 
 private:
 	GLsizei buffer_size_;

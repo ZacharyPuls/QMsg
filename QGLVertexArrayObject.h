@@ -5,6 +5,8 @@
 
 #include "QGL.h"
 #include "QGLObject.h"
+#include "QGLShaderProgram.h"
+#include "QGLVertexBufferObject.h"
 #include "QLog.h"
 
 class QGLVertexArrayObject : IQGLObject {
@@ -21,13 +23,13 @@ public:
 	}
 
 	inline void Unbind() {
+		// When a VAO is unbound, NEVER call a procedure that modifies VAO state, including glBindBuffer 
+		// (But only for buffers other than GL_ARRAY_BUFFER. Confusing, right?).
 		glBindVertexArray(0);
 	}
 
 	bool Create();
-
 private:
-
 };
 
 #endif

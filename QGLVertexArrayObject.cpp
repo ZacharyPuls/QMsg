@@ -5,7 +5,7 @@ QGLVertexArrayObject::QGLVertexArrayObject() {
 }
 
 QGLVertexArrayObject::~QGLVertexArrayObject() {
-
+	glDeleteVertexArrays(1, &id_);
 }
 
 bool QGLVertexArrayObject::Create() {

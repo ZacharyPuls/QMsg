@@ -13,6 +13,7 @@
 typedef wchar_t QChar;
 typedef std::wstring QString;
 typedef QChar *QCString;
+#define ITO_QSTRING(x) std::to_wstring(x)
 #define TO_QSTRING(x) std::wstring_convert<std::codecvt_utf8<QChar>, QChar>().from_bytes(x)
 #define FROM_QSTRING(x) std::wstring_convert<std::codecvt_utf8<QChar>, QChar>().to_bytes(x)
 #else

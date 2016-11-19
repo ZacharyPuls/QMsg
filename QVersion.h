@@ -12,6 +12,8 @@
 #if defined(QMSG_WIN32) || defined(QMSG_WIN64)
 #define QMSG_PLATFORM_WINDOWS
 #define QMSG_SOCKET_WINSOCK2
+#define NOMINMAX
+#define VC_EXTRALEAN
 #define WIN32_LEAN_AND_MEAN
 #if !defined(UNICODE)
 #define UNICODE 1

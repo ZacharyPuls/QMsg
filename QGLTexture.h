@@ -5,6 +5,7 @@
 
 #include "QGL.h"
 #include "QGLObject.h"
+#include "QLog.h"
 
 #include <cstdarg>
 
@@ -15,7 +16,6 @@ struct QGLTextureData {
 	GLsizei depth; // Not needed for 1D or 2D textures
 	GLenum data_format;
 	GLenum data_type;
-	const GLvoid *data;
 };
 
 class QGLTexture : IQGLObject {
@@ -25,6 +25,7 @@ public:
 
 	inline void Bind() {
 		glBindTexture(texture_type_, id_);
+		glActiveTexture(GL_TEXTURE0);
 	}
 
 	inline void Unbind() {
@@ -32,6 +33,9 @@ public:
 	}
 
 	bool Create();
+
+	void SetTextureData(const GLvoid *data);
+	void SetTextureData(GLint x, GLint y, GLint z, GLint width, GLint height, GLint depth, const GLvoid *data);
 
 	inline void SetTextureOption(GLenum pname, GLint param) {
 		if (id_ == 0) {

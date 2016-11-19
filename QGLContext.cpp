@@ -13,7 +13,7 @@ QGLContext::QGLContext(HWND hWnd) : QGLContext() {
     PIXELFORMATDESCRIPTOR pixelFormatDescriptor = { 0 };
     pixelFormatDescriptor.cAlphaBits = 8;
     pixelFormatDescriptor.cBlueBits = 8;
-    pixelFormatDescriptor.cColorBits = 24;
+    pixelFormatDescriptor.cColorBits = 32;
     pixelFormatDescriptor.cGreenBits = 8;
     pixelFormatDescriptor.cRedBits = 8;
     pixelFormatDescriptor.dwFlags = PFD_DRAW_TO_WINDOW | PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER;

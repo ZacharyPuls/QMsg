@@ -14,6 +14,10 @@ public:
     QGLContext();
 	QGLContext(HWND hWnd);
 	~QGLContext();
+
+	inline void SwapBuffers() {
+		::SwapBuffers(gdi_device_context_);
+	}
 private:
 	HWND parent_window_;
 	HGLRC gl_render_context_;
