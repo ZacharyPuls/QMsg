@@ -7,9 +7,9 @@
 #include "QGLContext.h"
 #include "QGLShaderProgram.h"
 #include "QGLMesh2D.h"
-#include "QGLVertexArrayObject.h"
-#include "QGLVertexBufferObject.h"
 #include "QLog.h"
+#include "QRenderableObject.h"
+#include "QVertexBuffer.h"
 
 #include <Windows.h>
 
@@ -35,8 +35,8 @@ public:
 
 	void Render();
 
-	inline void add_mesh(QGLMesh2D mesh) {
-		meshes_.push_back(mesh);
+	inline void add_object(const QRenderableObject &object) {
+		objects_.push_back(object);
 	}
 
 	inline void set_shader(GLchar *vertex_shader_source, GLchar *fragment_shader_source) {
@@ -49,12 +49,11 @@ public:
 private:
     int width_;
     int height_;
-	QGLContext *gl_context_;
-    QGLShaderProgram *gl_shader_;
+	QGLContext *gl_context_ = nullptr;
+    QGLShaderProgram *gl_shader_ = nullptr;
     glm::mat4x4 projection_matrix_;
-	std::vector<QGLMesh2D> meshes_;
-	QGLVertexArrayObject *vertex_array_object_;
-	QGLVertexBufferObject *vertex_buffer_object_;
+	std::vector<QRenderableObject> objects_;
+	QVertexBuffer *vertex_buffer_ = nullptr;
 
     std::array<float, 16> project_ortho_(float width, float height);
 };

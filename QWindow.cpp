@@ -65,8 +65,19 @@ bool QWindow::Create() {
 
 	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-	QGLFont *ubuntu_mono = new QGLFont();
-	ubuntu_mono->Load(L"fonts/Ubuntu-R.ttf", 16);
+	QGLFont ubuntu_mono;
+
+	if (!ubuntu_mono.Load(L"fonts/Ubuntu-R.ttf", 16)) {
+		Log->Error(L"Could not load Ubuntu Mono Regular font.");
+	}
+
+	QGLMesh2D text_mesh;
+	text_mesh.add_triangles(ubuntu_mono.RenderString(L"Test string.", 100.0f, 100.0f, 1.0f));
+	
+	QRenderableObject text_object;
+	text_object.set_mesh(text_mesh);
+
+	render_surface_->add_object(text_object);
 
 	MSG msg;
 	bool running = true;
@@ -87,6 +98,7 @@ bool QWindow::Create() {
 		}	
 		render_surface_->Render();
 	}
+
 	return true;
 }
 

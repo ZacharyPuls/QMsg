@@ -3,14 +3,12 @@
 
 #include "QVersion.h"
 
-#include "QVertexBuffer.h""
+#include "QVertexBuffer.h"
 
 #include <list>
 
 class QVertexBufferPool {
 public:
-	QVertexBufferPool();
-	~QVertexBufferPool();
 
 	static QVertexBufferPool &GetInstance() {
 		static QVertexBufferPool instance;

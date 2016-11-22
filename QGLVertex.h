@@ -15,17 +15,14 @@ public:
 
 	inline QGLVertex() {}
 	inline QGLVertex(Array_ points) : points_(points) {}
-	inline QGLVertex(std::initializer_list<T> list) {
-		assert(list.size() == N);
-		std::copy(list.begin(), list.end(), points_);
-	}
+
 	inline ~QGLVertex() {}
 
 	inline void set_points(Array_ points) {
 		points_ = points;
 	}
 
-	inline Array_ get_points() {
+	inline const Array_ get_points() const {
 		return points_;
 	}
 

@@ -12,21 +12,20 @@ public:
 	QRenderableObject();
 	~QRenderableObject();
 
-	inline void add_vertices(float *vertices) {
-		
+	inline void add_triangle(const QGLTriangle2D &triangle) {
+		mesh_->add_triangle(triangle);
 	}
 
-	inline QGLMesh2D get_mesh() const {
+	inline const QGLMesh2D *get_mesh() const {
 		return mesh_;
 	}
 
-	inline void set_shader(QGLShaderProgram *shader) {
-		shader_ = shader;
+	inline void set_mesh(const QGLMesh2D mesh) {
+		mesh_ = new QGLMesh2D(mesh);
 	}
-
+protected:
+	QGLMesh2D *mesh_;
 private:
-	QGLMesh2D mesh_;
-	QGLShaderProgram *shader_;
 	QGLTexture *texture_;
 };
 

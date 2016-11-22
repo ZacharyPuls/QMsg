@@ -11,6 +11,7 @@
 
 #include <array>
 #include <map>
+#include <vector>
 
 struct QGLCharacter {
 	GLfloat xoffset;
@@ -24,11 +25,12 @@ public:
     QGLFont();
     ~QGLFont();
 	bool Load(QString font_path, int font_size);
-	QGLTriangle2D *RenderString(QString string, GLfloat x, GLfloat y, GLfloat scale);
+	std::vector<QGLTriangle2D> RenderString(QString string, GLfloat x, GLfloat y, GLfloat scale);
 private:
-	QGLTexture *texture_;
+	QGLTexture *texture_ = nullptr;
     std::map<GLchar, QGLCharacter> characters_;
-	FT_Face font_face_;
+	FT_Face font_face_ = NULL;
+	std::pair<GLint, GLint> atlas_size_;
 
 	std::pair<GLint, GLint> calculate_font_atlas_size_(FT_Face font_face);
 };
